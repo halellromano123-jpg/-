@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Dose - המנה היומית שלך</title>
+    <title>Daily Dose - מגזין יומי</title>
     <style>
         :root {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
+            --text-secondary: #b0b0b0;
             --accent-color: #bb86fc;
             --whatsapp-green: #25D366;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -25,60 +27,101 @@
             padding: 20px;
             line-height: 1.6;
         }
-        header { text-align: center; margin-bottom: 30px; margin-top: 20px; }
+
+        header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
             background: linear-gradient(45deg, var(--accent-color), #8a4af3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
-        #date-display { color: var(--text-secondary); font-weight: 500; }
+
+        #date-display { color: var(--text-secondary); font-size: 1.1rem; }
+
         .container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
         }
+
         .card {
             background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            overflow: hidden; /* כדי שהתמונה לא תצא מהגבולות */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             border: 1px solid #333;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-color); }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #333;
+        }
+
+        .card-content { padding: 25px; }
+
         .category-tag {
             color: var(--accent-color);
-            background: rgba(187, 134, 252, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
             font-weight: bold;
-            display: inline-block;
             margin-bottom: 10px;
+            display: inline-block;
         }
-        .fact-text { font-size: 1.1rem; }
+
+        h3 { font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3; color: #fff; }
+
+        .description { margin-bottom: 20px; color: var(--text-secondary); font-size: 0.95rem; }
+
+        ul { padding-right: 20px; margin-bottom: 15px; }
         
+        li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        li strong { color: var(--accent-color); }
+
         /* כפתור וואטסאפ */
         .whatsapp-btn {
             background-color: var(--whatsapp-green);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 18px 40px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-top: 40px;
+            margin-top: 50px;
+            margin-bottom: 30px;
             cursor: pointer;
-            width: 100%;
-            max-width: 400px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: transform 0.2s;
         }
-        footer { margin-top: auto; padding-top: 40px; color: var(--text-secondary); font-size: 0.8rem; }
+
+        .whatsapp-btn:active { transform: scale(0.95); }
+
+        footer { margin-top: auto; padding: 20px; color: #555; font-size: 0.8rem; }
+
+        @media (max-width: 600px) {
+            .container { grid-template-columns: 1fr; }
+            h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -91,78 +134,151 @@
     <div class="container" id="facts-container"></div>
 
     <button class="whatsapp-btn" onclick="shareToWhatsApp()">
-        <span>שלח לקבוצה בוואטסאפ</span>
+        <span>שלח את המידע לוואטסאפ</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </button>
 
-    <footer>נוצר ע"י גמיני | מתעדכן בחצות</footer>
+    <footer>נוצר ע"י גמיני | גרסת מגזין V2</footer>
 
     <script>
+        // המאגר המשודרג - כולל תמונות ופירוט
         const factsDB = [
-            { category: "היסטוריה", text: "אוניברסיטת אוקספורד עתיקה יותר מהאימפריה האצטקית." },
-            { category: "מדע", text: "דבש הוא המזון היחיד שאינו מתקלקל לעולם." },
-            { category: "טכנולוגיה", text: "הבאג הראשון במחשב נגרם על ידי עש (חרק) אמיתי." },
-            { category: "חלל", text: "יום אחד על נוגה ארוך יותר משנה אחת על נוגה." },
-            { category: "ביולוגיה", text: "לתמנונים יש שלושה לבבות ודם כחול." },
-            { category: "טכנולוגיה", text: "מעל 90% מהכסף בעולם קיים רק במחשבים." },
-            { category: "טבע", text: "כרישים היו קיימים לפני העצים." },
-            { category: "פיזיקה", text: "אם תקפל דף 42 פעמים, הוא יגיע לירח." },
-            { category: "היסטוריה", text: "המלחמה הקצרה ביותר בהיסטוריה נמשכה 38 דקות." },
-            { category: "גוף האדם", text: "הלב האנושי מייצר מספיק לחץ כדי להתיז דם למרחק 9 מטרים." },
-            { category: "גיאוגרפיה", text: "רוסיה גדולה יותר בשטחה מכוכב הלכת פלוטו." },
-            { category: "מוזיקה", text: "צמחים גדלים מהר יותר כמשמיעים להם מוזיקה קלאסית." },
-            { category: "טכנולוגיה", text: "הדומיין הראשון שנרשם היה symbolics.com." },
-            { category: "מדע", text: "מים חמים יכולים לקפוא מהר יותר ממים קרים (אפקט מפמבה)." },
-            { category: "בעלי חיים", text: "לקואלה יש טביעות אצבע כמעט זהות לבני אדם." },
-            { category: "היסטוריה", text: "נפוליאון הותקף פעם על ידי עדר ארנבים." },
-            { category: "חלל", text: "השקיעה במאדים נראית כחולה." },
-            { category: "מחשבים", text: "סיסמת הגרעין של ארה\"ב במשך 20 שנה הייתה 00000000." },
-            { category: "טבע", text: "בננות הן מבחינה בוטנית סוג של עשב." },
-            { category: "אנטומיה", text: "העצם החזקה ביותר בגוף היא עצם הירך." },
-            { category: "טכנולוגיה", text: "הלוגו של אנדרואיד עוצב בהשראת שלטים בשירותים." },
-            { category: "היסטוריה", text: "קליאופטרה חיה קרוב יותר להמצאת האייפון מאשר לבניית הפירמידות." },
-            { category: "מדע", text: "יהלומים יכולים להישרף בטמפרטורה גבוהה מאוד." },
-            { category: "פיזיקה", text: "הזמן עובר לאט יותר ככל שאתה קרוב יותר לכדור הארץ." },
-            { category: "חיות", text: "לפרפרים יש חיישני טעם ברגליים." },
-            { category: "גיאוגרפיה", text: "יש עיר בנורבגיה שבה אסור למות (Longyearbyen)." },
-            { category: "מזון", text: "קטשופ נמכר בעבר כתרופה." },
-            { category: "טכנולוגיה", text: "המצלמה הראשונה דרשה חשיפה של 8 שעות לתמונה אחת." },
-            { category: "חלל", text: "יש יותר כוכבים ביקום מגרגירי חול בכדור הארץ." },
-            { category: "היסטוריה", text: "ויקינגים השתמשו בגולגולות של אויבים ככוסות שתייה? זה מיתוס." },
-            { category: "מדע", text: "אור השמש מגיע אלינו באיחור של 8 דקות." }
+            {
+                category: "אקולוגיה",
+                title: "האינטרנט של העצים",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Forest_filtering_sunlight.jpg/640px-Forest_filtering_sunlight.jpg",
+                description: "מסתבר שיער הוא לא סתם אוסף של עצים שעומדים זה לצד זה, אלא רשת חברתית סבוכה ופעילה.",
+                bullets: [
+                    "<strong>איך זה עובד?</strong> מתחת לאדמה קיימת רשת עצומה של פטריות המתחברות לשורשי העצים.",
+                    "<strong>עזרה הדדית:</strong> עץ 'אם' זקן יכול לשלוח חומרי הזנה לעצים צעירים וחלשים יותר.",
+                    "<strong>מערכת התראה:</strong> אם עץ נתקף ע\"י חרקים, הוא מזהיר את שכניו דרך הרשת."
+                ]
+            },
+            {
+                category: "אסטרופיזיקה",
+                title: "הגשם המוזר ביותר במערכת השמש",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Neptune.jpg/640px-Neptune.jpg",
+                description: "על כדור הארץ יורד גשם של מים, אבל בענקי הגז נפטון ואורנוס, המדענים מאמינים שיורד גשם של יהלומים.",
+                bullets: [
+                    "<strong>התהליך:</strong> הלחץ האטמוספירי העצום מוחץ את אטומי הפחמן שבמתאן.",
+                    "<strong>התוצאה:</strong> הפחמן מתגבש ליהלומים ש'נושרים' אל ליבת הכוכב.",
+                    "<strong>הוכחה:</strong> מדענים שחזרו את התנאים האלו במעבדה בעזרת לייזרים."
+                ]
+            },
+            {
+                category: "ביולוגיה",
+                title: "האנשים שרואים מיליוני צבעים שאתה לא",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Iris_eye_macro.jpg/640px-Iris_eye_macro.jpg",
+                description: "רובנו רואים כמיליון גוונים, אבל יש נשים שנולדות עם 'ראיית על' (טטרכרומטיות).",
+                bullets: [
+                    "<strong>ההבדל:</strong> לנשים אלו יש ארבעה סוגי קולטני צבע במקום שלושה.",
+                    "<strong>הכוח:</strong> הן יכולות להבחין בעד 100 מיליון גוונים שונים.",
+                    "<strong>איך זה נראה?</strong> איפה שאנחנו רואים כחול אחיד, הן רואות קשת של עשרות גוונים."
+                ]
+            },
+            // עובדות נוספות לגיוון הימים הבאים
+             {
+                category: "היסטוריה",
+                title: "המלחמה הקצרה ביותר אי פעם",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Sultan%27s_Palace%2C_Zanzibar%2C_after_the_bombardment_1896.jpg/640px-Sultan%27s_Palace%2C_Zanzibar%2C_after_the_bombardment_1896.jpg",
+                description: "מלחמות בדרך כלל נמשכות שנים, אבל המלחמה האנגלו-זנזיברית הייתה קצרה יותר משיעור בבית ספר.",
+                bullets: [
+                    "<strong>משך הזמן:</strong> המלחמה נמשכה בין 38 ל-45 דקות בלבד.",
+                    "<strong>הסיבה:</strong> סולטן זנזיבר סירב לפרוש לבקשת הבריטים.",
+                    "<strong>הסוף:</strong> הבריטים הפגיזו את הארמון, והסולטן נכנע מיד."
+                ]
+            },
+            {
+                category: "טכנולוגיה",
+                title: "המחשב הראשון היה בכלל נול אריגה",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Jacquard_loom_cards.jpg/640px-Jacquard_loom_cards.jpg",
+                description: "הרעיון של 'תכנות' הגיע הרבה לפני החשמל, דווקא מתעשיית הטקסטיל של המאה ה-19.",
+                bullets: [
+                    "<strong>ההמצאה:</strong> ג'וזף מארי ז'אקארד המציא נול שמופעל ע\"י כרטיסים מחוררים.",
+                    "<strong>הקשר למחשב:</strong> הכרטיסים קבעו את הדוגמה, בדיוק כמו קוד בינארי (0 ו-1).",
+                    "<strong>המורשת:</strong> שיטה זו שימשה את המחשבים הראשונים עד שנות ה-80."
+                ]
+            },
+             {
+                category: "זואולוגיה",
+                title: "החיה שכמעט בלתי אפשרי להרוג",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Tardigrada.jpg/640px-Tardigrada.jpg",
+                description: "דובוני המים (Tardigrades) הם היצורים העמידים ביותר שהתגלו אי פעם על פני כדור הארץ.",
+                bullets: [
+                    "<strong>הישרדות:</strong> הם שורדים קרינה חזקה, לחץ עצום ואפילו את הריק של החלל.",
+                    "<strong>הטריק:</strong> הם יכולים לייבש את עצמם כמעט לחלוטין ולחזור לחיים שנים אחרי.",
+                    "<strong>גודל:</strong> למרות כוחם, הם מיקרוסקופיים וגודלם פחות ממילימטר."
+                ]
+            }
         ];
 
         function getDailyFacts() {
+            // לוגיקה שבוחרת 3 עובדות לפי היום בשנה
             const today = new Date();
             const start = new Date(today.getFullYear(), 0, 0);
-            const dayOfYear = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+            const diff = today - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
             
-            return [
-                factsDB[dayOfYear % factsDB.length],
-                factsDB[(dayOfYear + 10) % factsDB.length],
-                factsDB[(dayOfYear + 20) % factsDB.length]
-            ];
+            // שימוש ב-Modulo כדי להבטיח מעגליות
+            const fact1 = factsDB[dayOfYear % factsDB.length];
+            const fact2 = factsDB[(dayOfYear + 1) % factsDB.length];
+            const fact3 = factsDB[(dayOfYear + 2) % factsDB.length];
+
+            return [fact1, fact2, fact3];
         }
 
         function render() {
-            const dateStr = new Date().toLocaleDateString('he-IL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('date-display').textContent = dateStr;
+            // הצגת התאריך
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date-display').textContent = new Date().toLocaleDateString('he-IL', options);
             
             const container = document.getElementById('facts-container');
-            getDailyFacts().forEach(fact => {
-                container.innerHTML += `
-                    <div class="card">
+            const dailyFacts = getDailyFacts();
+
+            // יצירת הכרטיסיות
+            dailyFacts.forEach(fact => {
+                // המרת המערך של הנקודות לרשימת HTML
+                let bulletsHtml = '';
+                fact.bullets.forEach(bullet => {
+                    bulletsHtml += `<li>${bullet}</li>`;
+                });
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${fact.image}" alt="${fact.title}" class="card-image">
+                    <div class="card-content">
                         <div class="category-tag">${fact.category}</div>
-                        <div class="fact-text">${fact.text}</div>
-                    </div>`;
+                        <h3>${fact.title}</h3>
+                        <p class="description">${fact.description}</p>
+                        <ul>${bulletsHtml}</ul>
+                    </div>
+                `;
+                container.appendChild(card);
             });
         }
 
         function shareToWhatsApp() {
-            let msg = "*השכלה יומית - 3 עובדות להיום:* 🧠\n\n";
-            getDailyFacts().forEach(f => msg += `*${f.category}:* ${f.text}\n\n`);
-            msg += "נשלח מאתר ה-Daily Dose שלי!";
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            const dailyFacts = getDailyFacts();
+            let message = `*השכלה יומית - ${new Date().toLocaleDateString('he-IL')}* 🧠\n\n`;
+            
+            dailyFacts.forEach(fact => {
+                message += `*📍 ${fact.title}* (${fact.category})\n`;
+                message += `${fact.description}\n`;
+                // הוספת הנקודות להודעה בלי תגיות HTML
+                fact.bullets.forEach(b => {
+                     // ניקוי תגיות HTML כמו strong עבור הוואטסאפ
+                    const cleanBullet = b.replace(/<\/?[^>]+(>|$)/g, "");
+                    message += `• ${cleanBullet}\n`;
+                });
+                message += `\n`;
+            });
+            
+            message += "נשלח מאתר ה-Daily Dose שלי! 🚀";
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         render();
